@@ -117,13 +117,11 @@ async def get_week(message: types.Message, state: FSMContext):
         return
 
     result = row.iloc[0]
-    response = f"<b>Лист:</b> {sheet}
-<b>Логин:</b> {login}
-
-"
+    response = f"<b>Лист:</b> {sheet}\n<b>Логин:</b> {login}\n\n"
     for col in df.columns:
-        response += f"{col}: {result[col]}
-"
+        value = result[col]
+        if pd.notna(value):
+            response += f"{col}: {value}\n"
 
     await message.answer(response, parse_mode="HTML")
     await state.finish()
